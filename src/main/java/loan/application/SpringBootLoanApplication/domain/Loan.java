@@ -1,5 +1,6 @@
 package loan.application.SpringBootLoanApplication.domain;
 
+import com.sun.istack.NotNull;
 import lombok.Data;
 
 import javax.persistence.Entity;
@@ -16,6 +17,7 @@ public class Loan {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotNull
     private int Amount;
     private LocalDate requestDate;
     private LocalDate dueDate;
