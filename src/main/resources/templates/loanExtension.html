@@ -13,11 +13,12 @@
           crossorigin="anonymous" th:src="@{/webjars/bootstrap/3.3.7-1/js/bootstrap.min.js}"></script>
 </head></head>
 <body>
-
-<form>
+<!--/*@thymesVar id="Loan" type="application.SpringBootLoanApplication.domain.Loan"*/-->
+<form th:object="${loan}" th:action="@{/loan/}" method="get">
   <div class="form-group p-3">
-    <label for="InputDate">Date</label>
-    <input type="date" class="form-control col-3" id="InputDate" placeholder="Amount">
+    <label  th:field="*{dueDate}" for="InputDate">Date</label>
+    <input type="dueDate" class="form-control col-3" id="InputDate" placeholder="dueDate">
+    <p th:if="${#fields.hasErrors('dueDate')}" th:errors="*{dueDate}">Date Error</p>
   </div>
   <div class="p-3">
     <button type="button" class="btn btn-dark">Submit</button>

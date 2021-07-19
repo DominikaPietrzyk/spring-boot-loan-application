@@ -19,15 +19,18 @@
 </div>
 <div class="row pl-5">
   <label>Identification number:  </label>
-  <p> 334 </p>
+  <!--/*@thymesVar id="id" type="application.SpringBootLoanApplication.domain.loan"*/-->
+  <p  th:text="${id}"> 334 </p>
 </div>
 <div class="row pl-5">
   <label>Date:  </label>
-  <p> 12-03-2022 </p>
+  <!--/*@thymesVar id="date" type="application.SpringBootLoanApplication.domain.loan"*/-->
+  <p  th:text="${date}"> 12-03-2022 </p>
 </div>
 <div class="row pl-5">
   <label>Amount: </label>
-  <p> 356 000 </p>
+  <!--/*@thymesVar id="amount" type="application.SpringBootLoanApplication.domain.loan"*/-->
+  <p  th:text="${amount}"> 356 000 </p>
 </div>
 <div class="row pl-5">
   <label>Loan extension link: </label>
