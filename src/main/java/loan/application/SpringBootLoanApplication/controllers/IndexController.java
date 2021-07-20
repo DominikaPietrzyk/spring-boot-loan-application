@@ -1,35 +1,45 @@
 package loan.application.SpringBootLoanApplication.controllers;
 
 import loan.application.SpringBootLoanApplication.domain.Client;
+import loan.application.SpringBootLoanApplication.domain.Loan;
+import loan.application.SpringBootLoanApplication.repositories.ClientRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.bind.annotation.PostMapping;
 
 
 import javax.validation.Valid;
 
 @Controller
-public class IndexController implements WebMvcConfigurer{
+public class IndexController{
+
+    private final ClientRepository clientRepository;
+
+    public IndexController(ClientRepository clientRepository) {
+        this.clientRepository = clientRepository;
+    }
 
     @GetMapping("/")
-    public String save(@Valid @ModelAttribute("client") Client client,BindingResult bindingResult){
+    public String displayFormClient(Model model) {
+        Client client = new Client();
+        model.addAttribute(client);
+        return "index";
+    }
 
-        if(bindingResult.hasErrors()){
+    @PostMapping("/")
+    public String addLoan(@ModelAttribute @Valid Client client, BindingResult result,
+                          Model model) {
 
+        if (result.hasErrors()) {
             return "index";
         }
-
-        return "redirect:/loanConfirmation";
+        clientRepository.save(client);
+        model.addAttribute("loan", new Loan());
+        return "redirect:/loanForm";
     }
 
-    @RequestMapping("/loanConfirmation")
-    public String getIndexPage(Model model) {
 
-        model.addAttribute("loan");
-        return "loanConfirmation";
-    }
 }

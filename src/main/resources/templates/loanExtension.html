@@ -14,14 +14,16 @@
 </head></head>
 <body>
 <!--/*@thymesVar id="Loan" type="application.SpringBootLoanApplication.domain.Loan"*/-->
-<form th:object="${loan}" th:action="@{/loan/}" method="get">
-  <div class="form-group p-3">
-    <label  th:field="*{dueDate}" for="InputDate">Date</label>
-    <input type="dueDate" class="form-control col-3" id="InputDate" placeholder="dueDate">
-    <p th:if="${#fields.hasErrors('dueDate')}" th:errors="*{dueDate}">Date Error</p>
-  </div>
+<form th:object="${loan}" th:action="@{/loan/}" method="post">
+  <div class="form-group pl-3">
+    <label for="InputDate">Date</label>
+    <input th:field="*{dueDate}"   type="date" class="form-control col-3" id="InputDate" placeholder="Date">
+    <span class="help-block" th:if="${#fields.hasErrors('dueDate')}">
+                       <p th:errors="*{dueDate}" class="text-danger">Last dueDate error</p>
+                   </span>
+  </div>>
   <div class="p-3">
-    <button type="button" class="btn btn-dark">Submit</button>
+    <button type="submit" class="btn btn-dark">Submit</button>
   </div>
 </form>
 </body>

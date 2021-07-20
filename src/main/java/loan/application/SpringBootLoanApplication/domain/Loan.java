@@ -2,12 +2,14 @@ package loan.application.SpringBootLoanApplication.domain;
 
 import com.sun.istack.NotNull;
 import lombok.*;
+import org.springframework.format.annotation.DateTimeFormat;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import java.time.LocalDate;
+import javax.persistence.*;
+import javax.validation.constraints.Future;
+import javax.validation.constraints.FutureOrPresent;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import java.util.Date;
 
 @ToString
 @EqualsAndHashCode
@@ -21,11 +23,15 @@ public class Loan {
     private Long id;
 
     @NotNull
-    private int Amount;
-    private LocalDate requestDate;
+    @Min(1)
+    @Max(2147483647)
+    private int amount;
 
     @NotNull
-    private LocalDate dueDate;
+    @Temporal(TemporalType.DATE)
+    @FutureOrPresent
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private Date dueDate;
 
     public Long getId() {
         return id;
@@ -36,26 +42,18 @@ public class Loan {
     }
 
     public int getAmount() {
-        return Amount;
+        return amount;
     }
 
     public void setAmount(int amount) {
-        Amount = amount;
+        this.amount = amount;
     }
 
-    public LocalDate getRequestDate() {
-        return requestDate;
-    }
-
-    public void setRequestDate(LocalDate requestDate) {
-        this.requestDate = requestDate;
-    }
-
-    public LocalDate getDueDate() {
+    public Date getDueDate() {
         return dueDate;
     }
 
-    public void setDueDate(LocalDate dueDate) {
+    public void setDueDate(Date dueDate) {
         this.dueDate = dueDate;
     }
 }

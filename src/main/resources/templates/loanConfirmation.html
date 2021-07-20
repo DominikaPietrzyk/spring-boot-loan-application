@@ -17,20 +17,17 @@
 <div class="alert alert-secondary font-weight-bold p-4" role="alert">
   Congratulations! You have been granted a loan.
 </div>
-<div class="row pl-5">
+<div class="row pl-5 ">
   <label>Identification number:  </label>
-  <!--/*@thymesVar id="id" type="application.SpringBootLoanApplication.domain.loan"*/-->
-  <p  th:text="${id}"> 334 </p>
+  <p  th:text="${loan.id}"> 334 </p>
 </div>
 <div class="row pl-5">
   <label>Date:  </label>
-  <!--/*@thymesVar id="date" type="application.SpringBootLoanApplication.domain.loan"*/-->
-  <p  th:text="${date}"> 12-03-2022 </p>
+  <p  th:text="${loan.dueDate}"> 12-03-2022 </p>
 </div>
 <div class="row pl-5">
   <label>Amount: </label>
-  <!--/*@thymesVar id="amount" type="application.SpringBootLoanApplication.domain.loan"*/-->
-  <p  th:text="${amount}"> 356 000 </p>
+  <p  th:text="${loan.amount}"> 356 000 </p>
 </div>
 <div class="row pl-5">
   <label>Loan extension link: </label>

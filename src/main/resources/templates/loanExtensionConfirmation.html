@@ -19,15 +19,15 @@
 </div>
 <div class="row pl-5">
   <label>Identification number:  </label>
-  <p> 334 </p>
+  <p  th:text="${updatedLoan.id}"> 334 </p>
 </div>
 <div class="row pl-5">
-  <label>Date:  </label>
-  <p> 12-03-2022 </p>
+  <label>New date:  </label>
+  <p th:text="${updatedLoan.dueDate}"> 12-03-2022 </p>
 </div>
 <div class="row pl-5">
   <label>Amount: </label>
-  <p> 356 000 </p>
+  <p th:text="${updatedLoan.amount}"> 356 000 </p>
 </div>
 </body>
 </html>

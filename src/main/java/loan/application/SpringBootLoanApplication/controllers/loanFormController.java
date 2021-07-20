@@ -8,39 +8,37 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @Controller
-public class LoanExtensionController {
+public class loanFormController {
 
     private final LoanRepository loanRepository;
 
-    public LoanExtensionController(LoanRepository loanRepository) {
+    public loanFormController(LoanRepository loanRepository) {
         this.loanRepository = loanRepository;
     }
 
-
-
-
-    @GetMapping("/loanExtension")
-    public String displayLoanExtension(Model model) {
+    @GetMapping("/loanForm")
+    public String loanForm(Model model) {
         model.addAttribute("loan", new Loan());
-        return "loanExtension";
+        return "loanForm";
     }
 
-    @PostMapping("/loanExtension")
-    public String updateLoanDate(@Valid @ModelAttribute("loan") Loan loan, BindingResult bindingResult,
-                                 Model model){
+    @PostMapping("/loanForm")
+    public String addLoan(@ModelAttribute @Valid Loan loan, BindingResult result,
+                          Model model) {
 
-        if(bindingResult.hasErrors()){
-            return "loanExtension";
+        if (result.hasErrors()) {
+            return "loanForm";
         }
+        Loan savedLoan = loanRepository.save(loan);
 
-        Loan updatedLoan= loanRepository.save(loan);
-        model.addAttribute("updatedLoan",updatedLoan);
+        model.addAttribute("loan", savedLoan);
 
-        return "loanExtensionConfirmation";
+        return "loanConfirmation";
     }
+
 }
