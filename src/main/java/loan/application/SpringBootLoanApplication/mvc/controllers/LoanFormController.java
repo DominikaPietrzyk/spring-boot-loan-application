@@ -1,6 +1,7 @@
-package loan.application.SpringBootLoanApplication.controllers;
+package loan.application.SpringBootLoanApplication.mvc.controllers;
 
 import loan.application.SpringBootLoanApplication.domain.Loan;
+import loan.application.SpringBootLoanApplication.mvc.viewModels.LoanViewModel;
 import loan.application.SpringBootLoanApplication.services.LoanService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,11 +12,11 @@ import javax.validation.Valid;
 
 @RequestMapping("/loanForm")
 @Controller
-public class loanFormController {
+public class LoanFormController {
 
     private final LoanService loanService;
 
-    public loanFormController(LoanService loanService) {
+    public LoanFormController(LoanService loanService) {
         this.loanService = loanService;
     }
 
@@ -38,5 +39,24 @@ public class loanFormController {
 
         return "loanConfirmation";
     }
+
+
+  /*  @PostMapping
+    public String addLoan(@ModelAttribute @Valid LoanViewModel loanViewModel,
+                          BindingResult result, Model model) {
+
+        if (result.hasErrors()) {
+            return "loanForm";
+        }
+
+        Loan loan = new Loan();
+        loan.setAmount(loanViewModel.getAmount());
+        loan.setDueDate(loanViewModel.getDueDate());
+
+        Loan savedLoan =  loanService.saveLoan(loan);
+        model.addAttribute("loan", savedLoan);
+
+        return "loanConfirmation";
+    }*/
 
 }

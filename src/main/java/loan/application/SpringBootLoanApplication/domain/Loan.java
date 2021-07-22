@@ -21,7 +21,7 @@ public class Loan {
 
     @NotNull
     @Min(1)
-    @Max(2147483647)
+    @Max(10000)
     private int amount;
 
     @NotNull

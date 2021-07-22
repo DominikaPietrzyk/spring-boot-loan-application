@@ -1,6 +1,7 @@
-package loan.application.SpringBootLoanApplication.controllers;
+package loan.application.SpringBootLoanApplication.mvc.controllers;
 
 import loan.application.SpringBootLoanApplication.domain.Loan;
+import loan.application.SpringBootLoanApplication.mvc.viewModels.LoanViewModel;
 import loan.application.SpringBootLoanApplication.services.LoanService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,9 +21,8 @@ public class LoanExtensionController {
     }
 
     @GetMapping("/{id}")
-    public String displayLoanExtension(@PathVariable("id") Long id, Model model) {
+    public String displayLoanExtension(@PathVariable("id") Long id) {
 
-        Loan loan = loanService.getLoanById(id);
         return "loanExtension" ;
     }
 

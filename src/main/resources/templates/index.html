@@ -13,7 +13,6 @@
 </head></head>
 <body>
 
-<!--/*@thymesVar id="Client" type="application.SpringBootLoanApplication.domain.Client"*/-->
 <form th:object="${client}" method="post">
   <div th:if="${#fields.hasErrors('*')}" class="alert alert-danger">
     <p>Please Correct Errors Below</p>

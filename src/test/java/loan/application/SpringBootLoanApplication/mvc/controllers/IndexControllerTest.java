@@ -1,4 +1,4 @@
-package loan.application.SpringBootLoanApplication.controllers;
+package loan.application.SpringBootLoanApplication.mvc.controllers;
 
 import loan.application.SpringBootLoanApplication.services.ClientService;
 
