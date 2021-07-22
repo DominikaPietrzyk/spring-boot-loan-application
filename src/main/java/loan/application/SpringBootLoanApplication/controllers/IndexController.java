@@ -2,43 +2,46 @@ package loan.application.SpringBootLoanApplication.controllers;
 
 import loan.application.SpringBootLoanApplication.domain.Client;
 import loan.application.SpringBootLoanApplication.domain.Loan;
-import loan.application.SpringBootLoanApplication.repositories.ClientRepository;
+import loan.application.SpringBootLoanApplication.services.ClientService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 
 import javax.validation.Valid;
 
+@RequestMapping({"", "/", "/index"})
 @Controller
 public class IndexController{
 
-    private final ClientRepository clientRepository;
+    private final ClientService clientService;
 
-    public IndexController(ClientRepository clientRepository) {
-        this.clientRepository = clientRepository;
+    public IndexController(ClientService clientService) {
+        this.clientService = clientService;
     }
 
-    @GetMapping("/")
-    public String displayFormClient(Model model) {
-        Client client = new Client();
-        model.addAttribute(client);
+    @GetMapping
+    public String displayClientForm(Model model) {
+
+        model.addAttribute("client", new Client());
         return "index";
     }
 
-    @PostMapping("/")
-    public String addLoan(@ModelAttribute @Valid Client client, BindingResult result,
+    @PostMapping
+    public String getClientData(@ModelAttribute @Valid Client client, BindingResult result,
                           Model model) {
 
         if (result.hasErrors()) {
             return "index";
         }
-        clientRepository.save(client);
+        clientService.saveClient(client);
         model.addAttribute("loan", new Loan());
-        return "redirect:/loanForm";
+
+        return "redirect:/loanForm" ;
     }
 
 

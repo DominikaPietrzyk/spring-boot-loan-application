@@ -1,44 +1,48 @@
 package loan.application.SpringBootLoanApplication.controllers;
 
 import loan.application.SpringBootLoanApplication.domain.Loan;
-import loan.application.SpringBootLoanApplication.repositories.LoanRepository;
+import loan.application.SpringBootLoanApplication.services.LoanService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
+import java.util.Calendar;
+import java.util.Date;
 
+@RequestMapping("/loanExtension")
 @Controller
 public class LoanExtensionController {
 
-    private final LoanRepository loanRepository;
+    private final LoanService loanService;
 
-    public LoanExtensionController(LoanRepository loanRepository) {
-        this.loanRepository = loanRepository;
+    public LoanExtensionController(LoanService loanService) {
+        this.loanService = loanService;
     }
 
+    @GetMapping("/{id}")
+    public String displayLoanExtension(@PathVariable("id") Long id, Model model) {
 
-
-
-    @GetMapping("/loanExtension")
-    public String displayLoanExtension(Model model) {
-        model.addAttribute("loan", new Loan());
-        return "loanExtension";
+        Loan loan = loanService.getLoanById(id);
+        return "loanExtension" ;
     }
 
-    @PostMapping("/loanExtension")
-    public String updateLoanDate(@Valid @ModelAttribute("loan") Loan loan, BindingResult bindingResult,
-                                 Model model){
+    @PostMapping("/{id}")
+    public String updateLoanDate(@PathVariable("id") Long id,Model model){
 
-        if(bindingResult.hasErrors()){
-            return "loanExtension";
+        Loan loan = loanService.getLoanById(id);
+
+        if (!loan.isLoanExtension()){
+
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(loan.getDueDate());
+
+            cal.add(Calendar.DATE, 14);
+            Date modifiedDate = cal.getTime();
+
+            loan.setDueDate(modifiedDate);
+            loan.setLoanExtension(true);
         }
-
-        Loan updatedLoan= loanRepository.save(loan);
+        Loan updatedLoan= loanService.saveLoan(loan);
         model.addAttribute("updatedLoan",updatedLoan);
 
         return "loanExtensionConfirmation";

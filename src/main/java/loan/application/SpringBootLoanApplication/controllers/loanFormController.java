@@ -1,41 +1,39 @@
 package loan.application.SpringBootLoanApplication.controllers;
 
 import loan.application.SpringBootLoanApplication.domain.Loan;
-import loan.application.SpringBootLoanApplication.repositories.LoanRepository;
+import loan.application.SpringBootLoanApplication.services.LoanService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
 
+@RequestMapping("/loanForm")
 @Controller
 public class loanFormController {
 
-    private final LoanRepository loanRepository;
+    private final LoanService loanService;
 
-    public loanFormController(LoanRepository loanRepository) {
-        this.loanRepository = loanRepository;
+    public loanFormController(LoanService loanService) {
+        this.loanService = loanService;
     }
 
-    @GetMapping("/loanForm")
-    public String loanForm(Model model) {
+   @GetMapping
+    public String displayLoanForm(Model model) {
         model.addAttribute("loan", new Loan());
-        return "loanForm";
+        return "loanForm" ;
     }
 
-    @PostMapping("/loanForm")
+    @PostMapping
     public String addLoan(@ModelAttribute @Valid Loan loan, BindingResult result,
                           Model model) {
 
         if (result.hasErrors()) {
             return "loanForm";
         }
-        Loan savedLoan = loanRepository.save(loan);
 
+        Loan savedLoan =  loanService.saveLoan(loan);
         model.addAttribute("loan", savedLoan);
 
         return "loanConfirmation";

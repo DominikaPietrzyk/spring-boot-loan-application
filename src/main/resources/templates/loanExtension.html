@@ -14,16 +14,14 @@
 </head></head>
 <body>
 <!--/*@thymesVar id="Loan" type="application.SpringBootLoanApplication.domain.Loan"*/-->
-<form th:object="${loan}" th:action="@{/loan/}" method="post">
-  <div class="form-group pl-3">
-    <label for="InputDate">Date</label>
-    <input th:field="*{dueDate}"   type="date" class="form-control col-3" id="InputDate" placeholder="Date">
-    <span class="help-block" th:if="${#fields.hasErrors('dueDate')}">
-                       <p th:errors="*{dueDate}" class="text-danger">Last dueDate error</p>
-                   </span>
-  </div>>
-  <div class="p-3">
-    <button type="submit" class="btn btn-dark">Submit</button>
+<form method="post">
+  <div class="form-group pt-4 pl-3 font-weight-bold">
+    <p>Do you want to extend your loan repayment by 14 days?</p>
+  </div>
+
+  <div class="p-4">
+    <button type="submit" class="btn btn-dark">Yes</button>
+    <a class="btn btn-dark" th:href="@{/}" role="button">No</a>
   </div>
 </form>
 </body>

@@ -5,10 +5,7 @@ import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
-import javax.validation.constraints.Future;
-import javax.validation.constraints.FutureOrPresent;
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
+import javax.validation.constraints.*;
 import java.util.Date;
 
 @ToString
@@ -33,6 +30,8 @@ public class Loan {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date dueDate;
 
+    private boolean loanExtension;
+
     public Long getId() {
         return id;
     }
@@ -55,5 +54,13 @@ public class Loan {
 
     public void setDueDate(Date dueDate) {
         this.dueDate = dueDate;
+    }
+
+    public boolean isLoanExtension() {
+        return loanExtension;
+    }
+
+    public void setLoanExtension(boolean loanExtension) {
+        this.loanExtension = loanExtension;
     }
 }
