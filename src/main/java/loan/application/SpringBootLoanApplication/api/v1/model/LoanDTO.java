@@ -1,6 +1,5 @@
 package loan.application.SpringBootLoanApplication.api.v1.model;
 
-
 import java.util.Date;
 
 public class LoanDTO {

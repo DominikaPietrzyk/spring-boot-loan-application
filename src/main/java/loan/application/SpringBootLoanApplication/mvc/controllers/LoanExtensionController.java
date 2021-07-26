@@ -1,7 +1,6 @@
 package loan.application.SpringBootLoanApplication.mvc.controllers;
 
 import loan.application.SpringBootLoanApplication.domain.Loan;
-import loan.application.SpringBootLoanApplication.mvc.viewModels.LoanViewModel;
 import loan.application.SpringBootLoanApplication.services.LoanService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,9 +19,26 @@ public class LoanExtensionController {
         this.loanService = loanService;
     }
 
-    @GetMapping("/{id}")
-    public String displayLoanExtension(@PathVariable("id") Long id) {
+    @GetMapping("/Form")
+    public String displayLoanExtensionForm(Model model) {
+        model.addAttribute("clientLoanExtensionForm", new Loan());
+        return "loanExtensionForm" ;
+    }
 
+    @PostMapping("/Form")
+    public String getClientDataLLoanExtensionForm(@ModelAttribute  Loan loan,Model model) {
+
+        Long id = loan.getId();
+       loanService.findLoanById(id);
+
+        model.addAttribute("loanLoanExtensionForm", new Loan());
+
+        return "redirect:/loanExtension/" + loan.getId();
+    }
+
+
+    @GetMapping("/{id}")
+    public String displayLoanExtension(@PathVariable("id") Long id)  {
         return "loanExtension" ;
     }
 
@@ -41,6 +57,9 @@ public class LoanExtensionController {
 
             loan.setDueDate(modifiedDate);
             loan.setLoanExtension(true);
+        }
+        else {
+            return "errorPage";
         }
         Loan updatedLoan= loanService.saveLoan(loan);
         model.addAttribute("updatedLoan",updatedLoan);

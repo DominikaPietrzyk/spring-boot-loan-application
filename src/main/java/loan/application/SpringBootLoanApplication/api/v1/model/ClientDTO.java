@@ -1,16 +1,20 @@
 package loan.application.SpringBootLoanApplication.api.v1.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
-@NoArgsConstructor
-@AllArgsConstructor
 public class ClientDTO {
 
     private Long id;
     private String firstName;
     private String lastName;
+
+    public ClientDTO(Long id, String firstName, String lastName) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+    }
+
+    public ClientDTO() {
+    }
 
     public Long getId() {
         return id;
@@ -35,4 +39,5 @@ public class ClientDTO {
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
+
 }

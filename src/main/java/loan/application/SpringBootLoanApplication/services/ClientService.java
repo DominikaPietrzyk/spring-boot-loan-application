@@ -12,6 +12,7 @@ public interface ClientService {
     Client getClientById(Long id);
 
 
+
     List<ClientDTO> getAllClient();
 
     ClientDTO findClientById(Long id);

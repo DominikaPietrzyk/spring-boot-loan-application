@@ -11,26 +11,17 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
           integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
           crossorigin="anonymous" th:src="@{/webjars/bootstrap/3.3.7-1/js/bootstrap.min.js}"></script>
-</head>
-
+</head></head>
 <body>
-<nav class="navbar sticky-top navbar-dark bg-dark">
-  <a class="navbar-brand" th:href="@{/}">Loan App</a>
-</nav>
-<div class="alert alert-secondary font-weight-bold p-4" role="alert">
-  The loan maturity date has been successfully rescheduled.
-</div>
-<div class="row pl-5">
-  <label>Identification number:  </label>
-  <p  th:text="${updatedLoan.id}"> 334 </p>
-</div>
-<div class="row pl-5">
-  <label>New date:  </label>
-  <p th:text="${updatedLoan.dueDate}"> 12-03-2022 </p>
-</div>
-<div class="row pl-5">
-  <label>Amount: </label>
-  <p th:text="${updatedLoan.amount}"> 356 000 </p>
-</div>
+<!--/*@thymesVar id="Loan" type="application.SpringBootLoanApplication.domain.Loan"*/-->
+<form method="post">
+  <nav class="navbar sticky-top navbar-dark bg-dark">
+    <a class="navbar-brand"th:href="@{/}">Loan App</a>
+  </nav>
+  <div class="p-4">
+    <a class="btn btn-success" th:href="@{/clientForm}" role="button">Get a loan</a>
+    <a class="btn btn-warning" th:href="@{/loanExtension/Form}" role="button">Get a loan extension</a>
+  </div>
+</form>
 </body>
 </html>

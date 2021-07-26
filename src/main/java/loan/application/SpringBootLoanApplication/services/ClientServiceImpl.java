@@ -38,6 +38,7 @@ public class ClientServiceImpl implements ClientService{
         return clientOptional.get();
     }
 
+
     @Override
     public List<ClientDTO> getAllClient() {
         return clientRepository.findAll()

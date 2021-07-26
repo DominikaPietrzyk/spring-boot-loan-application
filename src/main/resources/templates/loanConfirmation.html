@@ -14,6 +14,9 @@
 </head>
 
 <body>
+<nav class="navbar sticky-top navbar-dark bg-dark">
+  <a class="navbar-brand" th:href="@{/}">Loan App</a>
+</nav>
 <div class="alert alert-secondary font-weight-bold p-4" role="alert">
   Congratulations! You have been granted a loan.
 </div>
@@ -32,6 +35,9 @@
 <div class="row pl-5">
   <label>Loan extension link: </label>
  <a th:href="@{/loanExtension/{id}(id=${loan.id})}">Extend your loan repayment</a>
+</div>
+<div class="p-4">
+  <a class="btn btn-dark" th:href="@{/}" role="button">Go back</a>
 </div>
 </body>
 </html>

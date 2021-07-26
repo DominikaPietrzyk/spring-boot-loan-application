@@ -1,16 +1,23 @@
 package loan.application.SpringBootLoanApplication.api.v1.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
 import java.util.List;
 
-
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
 public class LoanListDTO {
 
     List<LoanDTO> loanDTOList;
+
+    public LoanListDTO(List<LoanDTO> loanDTOList) {
+        this.loanDTOList = loanDTOList;
+    }
+
+    public LoanListDTO() {
+    }
+
+    public List<LoanDTO> getLoanDTOList() {
+        return loanDTOList;
+    }
+
+    public void setLoanDTOList(List<LoanDTO> loanDTOList) {
+        this.loanDTOList = loanDTOList;
+    }
 }

@@ -12,8 +12,11 @@
             crossorigin="anonymous" th:src="@{/webjars/bootstrap/3.3.7-1/js/bootstrap.min.js}"></script>
 </head></head>
 <body>
+<nav class="navbar sticky-top navbar-dark bg-dark pb-3">
+    <a class="navbar-brand" th:href="@{/}">Loan App</a>
+</nav>
 <!--/*@thymesVar id="Loan" type="application.SpringBootLoanApplication.domain.Loan"*/-->
-<form th:object="${loan}" method="post">
+<form th:object="${loanForm}" method="post">
     <div th:if="${#fields.hasErrors('*')}" class="alert alert-danger">
         <p>Please Correct Errors Below</p>
     </div>

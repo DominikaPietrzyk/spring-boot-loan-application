@@ -6,10 +6,8 @@ class IndexControllerTest {
 
     private final ClientService clientService;
 
-
     IndexControllerTest(ClientService clientService) {
         this.clientService = clientService;
     }
-
 
 }

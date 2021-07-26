@@ -2,12 +2,13 @@ package loan.application.SpringBootLoanApplication.api.controllers;
 
 import io.swagger.annotations.Api;
 import loan.application.SpringBootLoanApplication.api.v1.model.ClientDTO;
+import loan.application.SpringBootLoanApplication.api.v1.model.ClientListDTO;
+import loan.application.SpringBootLoanApplication.api.v1.model.LoanDTO;
 import loan.application.SpringBootLoanApplication.services.ClientService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-@Api
 @RequestMapping(ClientController.BASE_URL)
 @RestController
 public class ClientController {
@@ -20,18 +21,10 @@ public class ClientController {
         this.clientService = clientService;
     }
 
-    /*   @GetMapping({"/api/client/{id}"})
+    @GetMapping({"/{id}"})
     public ResponseEntity<ClientDTO> findClientById(@PathVariable Long id) {
         return new ResponseEntity<ClientDTO>
                 (clientService.findClientById(id), HttpStatus.OK);
-    }*/
-
-    @GetMapping({"/{id}"})
-    @ResponseStatus(HttpStatus.OK)
-    public ClientDTO getCustomerById(@PathVariable Long id)
-    {
-        ClientDTO clientById = clientService.findClientById(id);
-        return clientById;
     }
 
     @PostMapping
@@ -40,17 +33,22 @@ public class ClientController {
                 (clientService.createNewClient(clientDTO),HttpStatus.CREATED);
     }
 
-
     @PutMapping({"/{id}"})
     public ResponseEntity<ClientDTO> update(@PathVariable Long id, @RequestBody ClientDTO clientDTO){
         return new ResponseEntity<ClientDTO>
                 (clientService.saveClientByDTO(id,clientDTO), HttpStatus.OK);
     }
 
-/*    @GetMapping
+    @GetMapping
     public ResponseEntity<ClientListDTO> getListOfClient(){
         return new ResponseEntity<ClientListDTO>
                 (new ClientListDTO(clientService.getAllClient()),HttpStatus.OK);
-    }*/
+    }
+
+    @DeleteMapping({"/{id}"})
+    public ResponseEntity<Void> deleteClient(@PathVariable Long id){
+        clientService.deleteClientById(id);
+        return new ResponseEntity<Void>(HttpStatus.OK);
+    }
 
 }
