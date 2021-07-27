@@ -8,7 +8,6 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 import java.text.SimpleDateFormat;
-import java.util.Date;
 
 @Component
 public class Bootstrap implements CommandLineRunner {
@@ -43,6 +42,8 @@ public class Bootstrap implements CommandLineRunner {
         loan.setId(1L);
         loan.setDueDate(new SimpleDateFormat("yyyy-MM-dd").parse("2021-09-24"));
         loan.setAmount(2343);
+        loan.setClient(client);
+        loan.setLoanExtension(true);
 
         loanRepository.save(loan);
 
@@ -50,6 +51,8 @@ public class Bootstrap implements CommandLineRunner {
         loan2.setId(2L);
         loan2.setDueDate(new SimpleDateFormat("yyyy-MM-dd").parse("2022-08-24"));
         loan2.setAmount(9999);
+        loan2.setClient(client2);
+        loan.setLoanExtension(false);
 
         loanRepository.save(loan2);
     }

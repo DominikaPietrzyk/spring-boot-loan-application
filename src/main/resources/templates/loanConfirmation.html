@@ -17,25 +17,31 @@
 <nav class="navbar sticky-top navbar-dark bg-dark">
   <a class="navbar-brand" th:href="@{/}">Loan App</a>
 </nav>
-<div class="alert alert-secondary font-weight-bold p-4" role="alert">
+<div class="alert alert-success font-weight-bold p-4 mb-4" role="alert">
   Congratulations! You have been granted a loan.
 </div>
-<div class="row pl-5 ">
-  <label>Identification number:  </label>
-  <p  th:text="${loan.id}"> 334 </p>
-</div>
-<div class="row pl-5">
-  <label>Date:  </label>
-  <p  th:text="${loan.dueDate}"> 12-03-2022 </p>
-</div>
-<div class="row pl-5">
-  <label>Amount: </label>
-  <p  th:text="${loan.amount}"> 356 000 </p>
-</div>
-<div class="row pl-5">
-  <label>Loan extension link: </label>
- <a th:href="@{/loanExtension/{id}(id=${loan.id})}">Extend your loan repayment</a>
-</div>
+
+<table class="table table-striped pt-4">
+  <thead>
+  <tr>
+    <th scope="col">Id</th>
+    <th scope="col">Due date</th>
+    <th scope="col">Amount</th>
+    <th scope="col">Extension link</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr>
+    <th th:text="${loan.id}" scope="row">1</th>
+    <td th:text="${loan.dueDate}">14-07-2023</td>
+    <td th:text="${loan.amount}">5400</td>
+    <td>
+      <a th:href="@{/loanExtension/{id}(id=${loan.id})}" class="row-link"> Link </a>
+      </td>
+  </tr>
+  </tbody>
+</table>
+
 <div class="p-4">
   <a class="btn btn-dark" th:href="@{/}" role="button">Go back</a>
 </div>

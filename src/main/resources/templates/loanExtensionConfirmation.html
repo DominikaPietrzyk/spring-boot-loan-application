@@ -17,20 +17,25 @@
 <nav class="navbar sticky-top navbar-dark bg-dark">
   <a class="navbar-brand" th:href="@{/}">Loan App</a>
 </nav>
-<div class="alert alert-secondary font-weight-bold p-4" role="alert">
+<div class="alert alert-success font-weight-bold p-4" role="alert">
   The loan maturity date has been successfully rescheduled.
 </div>
-<div class="row pl-5">
-  <label>Identification number:  </label>
-  <p  th:text="${updatedLoan.id}"> 334 </p>
-</div>
-<div class="row pl-5">
-  <label>New date:  </label>
-  <p th:text="${updatedLoan.dueDate}"> 12-03-2022 </p>
-</div>
-<div class="row pl-5">
-  <label>Amount: </label>
-  <p th:text="${updatedLoan.amount}"> 356 000 </p>
-</div>
+
+<table class="table table-striped pt-4">
+  <thead>
+  <tr>
+    <th scope="col">Id</th>
+    <th scope="col">Due date</th>
+    <th scope="col">Amount</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr>
+    <th th:text="${updatedLoan.id}" scope="row">3</th>
+    <td th:text="${updatedLoan.dueDate}">26-07-2023</td>
+    <td th:text="${updatedLoan.amount}">3420</td>
+  </tr>
+  </tbody>
+</table>
 </body>
 </html>

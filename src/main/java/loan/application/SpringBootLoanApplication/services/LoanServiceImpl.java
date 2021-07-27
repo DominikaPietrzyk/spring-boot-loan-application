@@ -1,5 +1,6 @@
 package loan.application.SpringBootLoanApplication.services;
 
+import loan.application.SpringBootLoanApplication.api.controllers.LoanController;
 import loan.application.SpringBootLoanApplication.api.v1.mapper.LoanMapper;
 import loan.application.SpringBootLoanApplication.api.v1.model.ClientDTO;
 import loan.application.SpringBootLoanApplication.api.v1.model.LoanDTO;
@@ -75,6 +76,11 @@ public class LoanServiceImpl implements LoanService{
 
     private LoanDTO saveAndReturnDTO(Loan loan) {
         Loan savedLoan = loanRepository.save(loan);
-        return loanMapper.loanToLoanDTO(savedLoan);
+        LoanDTO returnDTO = loanMapper.loanToLoanDTO(savedLoan);
+
+        returnDTO.setId(savedLoan.getId());
+        return returnDTO;
+
     }
+
 }

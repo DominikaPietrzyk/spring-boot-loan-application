@@ -26,10 +26,10 @@ public class LoanExtensionController {
     }
 
     @PostMapping("/Form")
-    public String getClientDataLLoanExtensionForm(@ModelAttribute  Loan loan,Model model) {
+    public String getClientDataLoanExtensionForm(@ModelAttribute  Loan loan,Model model) {
 
         Long id = loan.getId();
-       loanService.findLoanById(id);
+        loanService.findLoanById(id);
 
         model.addAttribute("loanLoanExtensionForm", new Loan());
 

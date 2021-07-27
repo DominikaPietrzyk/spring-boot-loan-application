@@ -45,9 +45,8 @@ public class IndexController{
         if (result.hasErrors()) {
             return "index";
         }
-        clientService.saveClient(client);
-        model.addAttribute("loan", new Loan());
 
+        model.addAttribute("loan", clientService.saveClient(client));
         return "redirect:/loanForm" ;
     }
 }

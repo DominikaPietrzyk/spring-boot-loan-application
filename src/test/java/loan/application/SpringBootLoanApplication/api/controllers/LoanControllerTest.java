@@ -145,4 +145,29 @@ class LoanControllerTest extends AbstractRestControllerTest{
                 .andExpect(jsonPath("$.loanExtension",equalTo(true)));
     }
 
+    @Test
+    public void createNewLoan() throws Exception {
+        LoanDTO loan1 = new LoanDTO();
+        loan1.setId(1L);
+        loan1.setAmount(4350);
+        loan1.setDueDate(new SimpleDateFormat("yyyy-MM-dd").parse("2021-09-24"));
+        loan1.setLoanExtension(true);
+
+        LoanDTO returnDTO = new LoanDTO();
+        returnDTO.setId(loan1.getId());
+        returnDTO.setAmount(loan1.getAmount());
+        returnDTO.setDueDate(loan1.getDueDate());
+        returnDTO.setLoanExtension(loan1.isLoanExtension());
+
+        when(loanService.createNewLoan(loan1)).thenReturn(returnDTO);
+
+        mockMvc.perform(post(LoanController.BASE_URL)
+                .accept(MediaType.APPLICATION_JSON)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(asJsonString(loan1)))
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("$.id", equalTo(1)))
+                .andExpect(jsonPath("$.amount", equalTo(4350)))
+                .andExpect(jsonPath("$.loanExtension",equalTo(true)));
+    }
 }
