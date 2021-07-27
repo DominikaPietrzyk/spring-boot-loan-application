@@ -1,15 +1,14 @@
 package loan.application.SpringBootLoanApplication.services;
 
-import loan.application.SpringBootLoanApplication.api.controllers.LoanController;
 import loan.application.SpringBootLoanApplication.api.v1.mapper.LoanMapper;
-import loan.application.SpringBootLoanApplication.api.v1.model.ClientDTO;
 import loan.application.SpringBootLoanApplication.api.v1.model.LoanDTO;
 import loan.application.SpringBootLoanApplication.domain.Loan;
+import loan.application.SpringBootLoanApplication.exceptions.CannotCreateLoanException;
+import loan.application.SpringBootLoanApplication.exceptions.LoanNotFoundException;
 import loan.application.SpringBootLoanApplication.repositories.LoanRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -24,17 +23,23 @@ public class LoanServiceImpl implements LoanService{
     }
 
     @Override
-    public Loan saveLoan(Loan loan) {
-        return this.loanRepository.save(loan);
+    public Loan saveLoan(Loan loan) throws CannotCreateLoanException {
+        int hourOfGettingLoan = getCurrentHour();
+
+        if (canCreateLoan(hourOfGettingLoan)){
+            return this.loanRepository.save(loan);
+        } else {
+            throw new CannotCreateLoanException();
+        }
     }
 
     @Override
-    public Loan getLoanById(Long id) {
+    public Loan getLoanById(Long id) throws LoanNotFoundException {
 
         Optional<Loan> loanOptional = loanRepository.findById(id);
 
         if (!loanOptional.isPresent()) {
-            throw new RuntimeException("Loan Not Found!");
+            throw new LoanNotFoundException(id);
         }
 
         return loanOptional.get();
@@ -49,7 +54,7 @@ public class LoanServiceImpl implements LoanService{
     }
 
     @Override
-    public LoanDTO findLoanById(Long id) {
+    public LoanDTO findLoanDtoById(Long id) {
         return loanRepository
                 .findById(id)
                 .map(loanMapper::loanToLoanDTO)
@@ -83,4 +88,13 @@ public class LoanServiceImpl implements LoanService{
 
     }
 
+    private boolean canCreateLoan(int hourOfGettingLoan) {
+        return hourOfGettingLoan < 24 && hourOfGettingLoan > 6;
+    }
+
+    private int getCurrentHour() {
+        Calendar calendar = GregorianCalendar.getInstance();
+        calendar.setTime(new Date());
+        return calendar.get(Calendar.HOUR_OF_DAY);
+    }
 }

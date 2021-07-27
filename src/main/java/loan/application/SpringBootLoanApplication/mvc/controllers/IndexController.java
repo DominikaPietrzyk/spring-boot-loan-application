@@ -1,7 +1,7 @@
 package loan.application.SpringBootLoanApplication.mvc.controllers;
 
+import loan.application.SpringBootLoanApplication.api.v1.mapper.ClientMapper;
 import loan.application.SpringBootLoanApplication.domain.Client;
-import loan.application.SpringBootLoanApplication.domain.Loan;
 import loan.application.SpringBootLoanApplication.services.ClientService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,9 +19,11 @@ import javax.validation.Valid;
 public class IndexController{
 
     private final ClientService clientService;
+    private final ClientMapper clientMapper;
 
-    public IndexController(ClientService clientService) {
+    public IndexController(ClientService clientService, ClientMapper clientMapper) {
         this.clientService = clientService;
+        this.clientMapper = clientMapper;
     }
 
     @GetMapping
@@ -39,14 +41,13 @@ public class IndexController{
     }
 
     @PostMapping("/clientForm")
-    public String getClientData(@ModelAttribute @Valid Client client, BindingResult result,
-                                Model model) {
+    public String saveClientData(@ModelAttribute @Valid Client client, BindingResult result,
+                                 Model model) {
 
         if (result.hasErrors()) {
             return "index";
         }
-
-        model.addAttribute("loan", clientService.saveClient(client));
+        model.addAttribute("loan", clientService.createNewClient(clientMapper.clientToClientDTO(client)));
         return "redirect:/loanForm" ;
     }
 }

@@ -1,6 +1,7 @@
 package loan.application.SpringBootLoanApplication.mvc.controllers;
 
 import loan.application.SpringBootLoanApplication.domain.Loan;
+import loan.application.SpringBootLoanApplication.exceptions.CannotCreateLoanException;
 import loan.application.SpringBootLoanApplication.services.LoanService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -8,9 +9,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
 
 @RequestMapping("/loanForm")
 @Controller
@@ -22,10 +20,10 @@ public class LoanFormController {
         this.loanService = loanService;
     }
 
-   @GetMapping
+    @GetMapping
     public String displayLoanForm(Model model) {
         model.addAttribute("loanForm", new Loan());
-        return "loanForm" ;
+        return "loanForm";
     }
 
     @PostMapping
@@ -35,19 +33,13 @@ public class LoanFormController {
         if (result.hasErrors()) {
             return "loanForm";
         }
-        Date date = new Date();
-        Calendar calendar = GregorianCalendar.getInstance();
-        calendar.setTime(date);
-        int hourOfGettingLoan= calendar.get(Calendar.HOUR_OF_DAY);
+        try {
+            Loan savedLoan = loanService.saveLoan(loan);
+            model.addAttribute("loan", savedLoan);
 
-       if(hourOfGettingLoan < 24 && hourOfGettingLoan > 6){
-           Loan savedLoan =  loanService.saveLoan(loan);
-           model.addAttribute("loan", savedLoan);
-       }
-       else {
-           return "loanFormError";
-       }
-
-        return "loanConfirmation";
+            return "loanConfirmation";
+        } catch (CannotCreateLoanException ex) {
+            return "loanFormError";
+        }
     }
 }

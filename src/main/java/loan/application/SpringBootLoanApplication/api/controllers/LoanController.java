@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 public class LoanController {
 
-    public static final String BASE_URL = "/api/v1/loan";
+    public static final String BASE_URL = "/api/v1/loans";
 
     private final LoanService loanService;
 
@@ -22,7 +22,7 @@ public class LoanController {
     @GetMapping({"/{id}"})
     public ResponseEntity<LoanDTO> findLoanById(@PathVariable Long id) {
         return new ResponseEntity<LoanDTO>
-                (loanService.findLoanById(id), HttpStatus.OK);
+                (loanService.findLoanDtoById(id), HttpStatus.OK);
     }
 
     @PostMapping
@@ -46,8 +46,6 @@ public class LoanController {
     @DeleteMapping({"/{id}"})
     public ResponseEntity<Void> deleteLoan(@PathVariable Long id){
         loanService.deleteLoanById(id);
-        return new ResponseEntity<Void>(HttpStatus.OK);
+        return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
     }
-
-
 }

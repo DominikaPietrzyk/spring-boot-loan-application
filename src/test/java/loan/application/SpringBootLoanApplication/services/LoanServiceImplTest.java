@@ -1,9 +1,7 @@
 package loan.application.SpringBootLoanApplication.services;
 
 import loan.application.SpringBootLoanApplication.api.v1.mapper.LoanMapper;
-import loan.application.SpringBootLoanApplication.api.v1.model.ClientDTO;
 import loan.application.SpringBootLoanApplication.api.v1.model.LoanDTO;
-import loan.application.SpringBootLoanApplication.domain.Client;
 import loan.application.SpringBootLoanApplication.domain.Loan;
 import loan.application.SpringBootLoanApplication.repositories.LoanRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -74,7 +72,7 @@ class LoanServiceImplTest {
 
         when(loanRepository.findById(anyLong())).thenReturn(Optional.ofNullable(loan1));
 
-        LoanDTO loanDTO = loanService.findLoanById(1L);
+        LoanDTO loanDTO = loanService.findLoanDtoById(1L);
 
         assertEquals(1L,loan1.getId());
         assertEquals(2341, loan1.getAmount());

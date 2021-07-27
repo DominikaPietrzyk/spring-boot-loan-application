@@ -39,7 +39,7 @@ class IndexControllerTest {
     @BeforeEach
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
-        controller = new IndexController(clientService);
+      //  controller = new IndexController(clientService, clientMapper);
         mockMvc = MockMvcBuilders.standaloneSetup(controller).build();
     }
 
@@ -75,7 +75,7 @@ class IndexControllerTest {
         client.setFirstName("Jan");
         client.setLastName("Nowak");
 
-        when(clientService.saveClient(any())).thenReturn(client);
+        //when(clientService.saveClient(any())).thenReturn(client);
 
         mockMvc.perform(post("/index/clientForm"))
                 .andExpect(status().is3xxRedirection())

@@ -15,6 +15,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import java.util.Arrays;
 import java.util.List;
 
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
 import static org.mockito.ArgumentMatchers.any;
@@ -89,7 +90,7 @@ class ClientControllerTest extends AbstractRestControllerTest {
 
         mockMvc.perform(delete(ClientController.BASE_URL + "/1")
                 .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk());
+                .andExpect(status().isNoContent());
 
         verify(clientService).deleteClientById(anyLong());
     }
@@ -104,7 +105,7 @@ class ClientControllerTest extends AbstractRestControllerTest {
         returnDTO.setFirstName(client1.getFirstName());
         returnDTO.setLastName(client1.getLastName());
 
-        when(clientService.saveClientByDTO(anyLong(), any(ClientDTO.class))).thenReturn(returnDTO);
+        when(clientService.updateClientByDTO(anyLong(), any(ClientDTO.class))).thenReturn(returnDTO);
 
         mockMvc.perform(put(ClientController.BASE_URL + "/1")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -114,7 +115,6 @@ class ClientControllerTest extends AbstractRestControllerTest {
                 .andExpect(jsonPath("$.lastName", equalTo("Kowalski")));
     }
 
-    //todo createClient test !
 
     @Test
     public void testCreteClient() throws Exception {
@@ -128,13 +128,14 @@ class ClientControllerTest extends AbstractRestControllerTest {
         returnDTO.setFirstName(client1.getFirstName());
         returnDTO.setLastName(client1.getLastName());
 
-        when(clientService.createNewClient(client1)).thenReturn(returnDTO);
+        when(clientService.createNewClient(any(ClientDTO.class))).thenReturn(returnDTO);
 
         mockMvc.perform(post(ClientController.BASE_URL)
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(asJsonString(client1)))
                 .andExpect(status().isCreated())
+                .andDo(print())
                 .andExpect(jsonPath("$.firstName", equalTo("Jan")))
                 .andExpect(jsonPath("$.lastName", equalTo("Kowalski")));
     }

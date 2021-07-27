@@ -109,7 +109,7 @@ class ClientServiceImplTest {
 
         when(clientRepository.save(any(Client.class))).thenReturn(savedClient);
 
-        ClientDTO savedDTO = clientService.saveClientByDTO(1L, clientDTO);
+        ClientDTO savedDTO = clientService.updateClientByDTO(1L, clientDTO);
 
         assertEquals(clientDTO.getFirstName(), savedDTO.getFirstName());
         assertEquals(clientDTO.getLastName(), savedDTO.getLastName());

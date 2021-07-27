@@ -11,33 +11,15 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
-public class ClientServiceImpl implements ClientService{
+public class ClientServiceImpl implements ClientService {
 
-   private final ClientRepository clientRepository;
-   private final ClientMapper clientMapper;
+    private final ClientRepository clientRepository;
+    private final ClientMapper clientMapper;
 
     public ClientServiceImpl(ClientRepository clientRepository, ClientMapper clientMapper) {
         this.clientRepository = clientRepository;
         this.clientMapper = clientMapper;
     }
-
-    @Override
-    public Client saveClient(Client client) {
-        return this.clientRepository.save(client);
-    }
-
-    @Override
-    public Client getClientById(Long id) {
-
-        Optional<Client> clientOptional = clientRepository.findById(id);
-
-        if (!clientOptional.isPresent()) {
-            throw new RuntimeException("Client Not Found!");
-        }
-
-        return clientOptional.get();
-    }
-
 
     @Override
     public List<ClientDTO> getAllClient() {
@@ -49,10 +31,10 @@ public class ClientServiceImpl implements ClientService{
 
     @Override
     public ClientDTO findClientById(Long id) {
-        return   clientRepository
+        return clientRepository
                 .findById(id)
-                 .map(clientMapper::clientToClientDTO)
-                 .orElseThrow(ResourceNotFoundException::new);
+                .map(clientMapper::clientToClientDTO)
+                .orElseThrow(ResourceNotFoundException::new);
     }
 
     @Override
@@ -61,7 +43,7 @@ public class ClientServiceImpl implements ClientService{
     }
 
     @Override
-    public ClientDTO saveClientByDTO(Long id, ClientDTO clientDTO) {
+    public ClientDTO updateClientByDTO(Long id, ClientDTO clientDTO) {
         Client client = clientMapper.clientDtoToClient(clientDTO);
         client.setId(id);
 

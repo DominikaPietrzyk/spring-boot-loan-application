@@ -1,6 +1,8 @@
 package loan.application.SpringBootLoanApplication.mvc.controllers;
 
 import loan.application.SpringBootLoanApplication.domain.Loan;
+import loan.application.SpringBootLoanApplication.exceptions.CannotCreateLoanException;
+import loan.application.SpringBootLoanApplication.exceptions.LoanNotFoundException;
 import loan.application.SpringBootLoanApplication.services.LoanService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -29,7 +31,7 @@ public class LoanExtensionController {
     public String getClientDataLoanExtensionForm(@ModelAttribute  Loan loan,Model model) {
 
         Long id = loan.getId();
-        loanService.findLoanById(id);
+        loanService.findLoanDtoById(id);
 
         model.addAttribute("loanLoanExtensionForm", new Loan());
 
@@ -43,9 +45,15 @@ public class LoanExtensionController {
     }
 
     @PostMapping("/{id}")
-    public String updateLoanDate(@PathVariable("id") Long id,Model model){
+    public String updateLoanDate(@PathVariable("id") Long id,Model model) throws LoanNotFoundException, CannotCreateLoanException {
 
-        Loan loan = loanService.getLoanById(id);
+        Loan loan = null;
+        try {
+            loan = loanService.getLoanById(id);
+        } catch (LoanNotFoundException e) {
+            //TODO: error not found
+            return "errorPage";
+        }
 
         if (!loan.isLoanExtension()){
 
@@ -61,7 +69,12 @@ public class LoanExtensionController {
         else {
             return "errorPage";
         }
-        Loan updatedLoan= loanService.saveLoan(loan);
+        Loan updatedLoan= null;
+        try {
+            updatedLoan = loanService.saveLoan(loan);
+        } catch (CannotCreateLoanException e) {
+            return "errorPage";
+        }
         model.addAttribute("updatedLoan",updatedLoan);
 
         return "loanExtensionConfirmation";

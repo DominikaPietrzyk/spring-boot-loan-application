@@ -2,7 +2,6 @@ package loan.application.SpringBootLoanApplication.api.controllers;
 
 
 import loan.application.SpringBootLoanApplication.api.RestResponseEntityExceptionHandler;
-import loan.application.SpringBootLoanApplication.api.v1.model.ClientDTO;
 import loan.application.SpringBootLoanApplication.api.v1.model.LoanDTO;
 import loan.application.SpringBootLoanApplication.services.LoanService;
 import org.junit.jupiter.api.BeforeEach;
@@ -81,7 +80,7 @@ class LoanControllerTest extends AbstractRestControllerTest{
         loan1.setDueDate(new SimpleDateFormat("yyyy/MM/dd").parse("2021/09/24"));
         loan1.setLoanExtension(false);
 
-        when(loanService.findLoanById(anyLong())).thenReturn(loan1);
+        when(loanService.findLoanDtoById(anyLong())).thenReturn(loan1);
 
         mockMvc.perform(get(LoanController.BASE_URL + "/1")
                 .contentType(MediaType.APPLICATION_JSON))
@@ -94,7 +93,7 @@ class LoanControllerTest extends AbstractRestControllerTest{
 
         mockMvc.perform(delete(LoanController.BASE_URL + "/1")
                 .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk());
+                .andExpect(status().isNoContent());
 
         verify(loanService).deleteLoanById(anyLong());
     }
@@ -125,27 +124,6 @@ class LoanControllerTest extends AbstractRestControllerTest{
     }
 
     @Test
-    public void testCreateLoan() throws Exception {
-
-        LoanDTO loan1 = new LoanDTO();
-        loan1.setId(1L);
-        loan1.setAmount(4350);
-        loan1.setDueDate(new SimpleDateFormat("yyyy-MM-dd").parse("2021-09-24"));
-        loan1.setLoanExtension(true);
-
-
-        when(loanService.saveLoanByDTO(anyLong(), any(LoanDTO.class))).thenReturn(loan1);
-
-        mockMvc.perform(post(LoanController.BASE_URL)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(asJsonString(loan1)))
-                .andExpect(status().isCreated())
-                .andExpect(jsonPath("$.id", equalTo(1)))
-                .andExpect(jsonPath("$.amount", equalTo(4350)))
-                .andExpect(jsonPath("$.loanExtension",equalTo(true)));
-    }
-
-    @Test
     public void createNewLoan() throws Exception {
         LoanDTO loan1 = new LoanDTO();
         loan1.setId(1L);
@@ -159,7 +137,7 @@ class LoanControllerTest extends AbstractRestControllerTest{
         returnDTO.setDueDate(loan1.getDueDate());
         returnDTO.setLoanExtension(loan1.isLoanExtension());
 
-        when(loanService.createNewLoan(loan1)).thenReturn(returnDTO);
+        when(loanService.createNewLoan(any(LoanDTO.class))).thenReturn(returnDTO);
 
         mockMvc.perform(post(LoanController.BASE_URL)
                 .accept(MediaType.APPLICATION_JSON)
