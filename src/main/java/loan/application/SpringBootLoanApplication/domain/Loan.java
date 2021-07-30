@@ -1,29 +1,25 @@
 package loan.application.SpringBootLoanApplication.domain;
 
 import com.sun.istack.NotNull;
-import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
 import java.util.Date;
 
-@ToString
-@EqualsAndHashCode
-@NoArgsConstructor
-@AllArgsConstructor
 @Entity
-@Table(name="loans")
+@Table(name = "loans")
 public class Loan {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @NotNull
     @Column(name = "loan_id")
     private Long id;
 
     @NotNull
     @Min(1)
-    @Max(10000)
+    @Max(30000)
     @Column(name = "amount")
     private int amount;
 
@@ -34,12 +30,23 @@ public class Loan {
     @Column(name = "due_date")
     private Date dueDate;
 
-    @Column(name = "loan_extension")
-    private boolean loanExtension;
+    @Column(name = "loan_delay")
+    private boolean isLoanDelay;
 
     @ManyToOne
     @JoinColumn(name = "client_id")
     private Client client;
+
+    public Loan(Long id, int amount, Date dueDate, boolean isLoanDelay, Client client) {
+        this.id = id;
+        this.amount = amount;
+        this.dueDate = dueDate;
+        this.isLoanDelay = isLoanDelay;
+        this.client = client;
+    }
+
+    public Loan() {
+    }
 
     public Long getId() {
         return id;
@@ -65,12 +72,12 @@ public class Loan {
         this.dueDate = dueDate;
     }
 
-    public boolean isLoanExtension() {
-        return loanExtension;
+    public boolean isLoanDelay() {
+        return isLoanDelay;
     }
 
-    public void setLoanExtension(boolean loanExtension) {
-        this.loanExtension = loanExtension;
+    public void setLoanDelay(boolean loanDelay) {
+        isLoanDelay = loanDelay;
     }
 
     public Client getClient() {

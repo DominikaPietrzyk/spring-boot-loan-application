@@ -13,6 +13,7 @@ public interface LoanService {
 
     Loan saveLoan(Loan loan) throws CannotCreateLoanException;
 
+    Loan updateLoan(Loan loan) throws CannotCreateLoanException;
 
     List<LoanDTO> getAllLoans();
 

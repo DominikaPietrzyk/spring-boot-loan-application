@@ -1,6 +1,5 @@
 package loan.application.SpringBootLoanApplication.api.v1.model;
 
-
 public class ClientDTO {
 
     private Long id;

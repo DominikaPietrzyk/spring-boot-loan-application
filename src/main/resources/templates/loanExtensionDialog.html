@@ -17,13 +17,16 @@
 <nav class="navbar sticky-top navbar-dark bg-dark">
     <a class="navbar-brand" th:href="@{/}">Loan App</a>
 </nav>
-<div class="alert alert-danger font-weight-bold" role="alert">
-    The loan can only be extended once ! The maturity date has not changed.
-</div>
+<!--/*@thymesVar id="Loan" type="application.SpringBootLoanApplication.domain.Loan"*/-->
+<form method="post">
+    <div class="form-group pt-4 pl-3 font-weight-bold">
+        <p>Do you want to extend your loan repayment by 14 days?</p>
+    </div>
 
-<div class="p-4">
-    <a class="btn btn-dark" th:href="@{/}" role="button">Go back</a>
-</div>
-
+    <div class="p-4">
+        <button type="submit" class="btn btn-dark">Yes</button>
+        <a class="btn btn-dark" th:href="@{/}" role="button">No</a>
+    </div>
+</form>
 </body>
 </html>

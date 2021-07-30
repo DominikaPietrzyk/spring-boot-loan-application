@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
-@RequestMapping("/loanForm")
+
 @Controller
 public class LoanFormController {
 
@@ -20,26 +20,27 @@ public class LoanFormController {
         this.loanService = loanService;
     }
 
-    @GetMapping
+    @GetMapping("/loan")
     public String displayLoanForm(Model model) {
         model.addAttribute("loanForm", new Loan());
         return "loanForm";
     }
 
-    @PostMapping
-    public String addLoan(@ModelAttribute @Valid Loan loan, BindingResult result,
+    @PostMapping("/loan")
+    public String addLoan(@ModelAttribute("loanForm") @Valid Loan loan, BindingResult result,
                           Model model) {
 
-        if (result.hasErrors()) {
+        if (result.hasErrors() || loan.getDueDate() == null) {
             return "loanForm";
-        }
-        try {
-            Loan savedLoan = loanService.saveLoan(loan);
-            model.addAttribute("loan", savedLoan);
+        } else {
+            try {
+                Loan savedLoan = loanService.saveLoan(loan);
+                model.addAttribute("loan", savedLoan);
 
-            return "loanConfirmation";
-        } catch (CannotCreateLoanException ex) {
-            return "loanFormError";
+                return "loanConfirmation";
+            } catch (CannotCreateLoanException ex) {
+                return "loanFormError";
+            }
         }
     }
 }

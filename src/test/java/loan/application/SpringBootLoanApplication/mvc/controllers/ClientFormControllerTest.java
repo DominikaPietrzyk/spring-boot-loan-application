@@ -1,6 +1,8 @@
 package loan.application.SpringBootLoanApplication.mvc.controllers;
 
-import loan.application.SpringBootLoanApplication.services.LoanService;
+import loan.application.SpringBootLoanApplication.api.controllers.AbstractRestControllerTest;
+import loan.application.SpringBootLoanApplication.api.v1.mapper.ClientMapper;
+import loan.application.SpringBootLoanApplication.services.ClientService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -13,27 +15,31 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-
+;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+
 @SpringBootTest
 @AutoConfigureMockMvc
 @ExtendWith(MockitoExtension.class)
-class LoanFormControllerTest {
+class ClientFormControllerTest extends AbstractRestControllerTest {
 
     @Mock
-    LoanService loanService;
-
-    @InjectMocks
-    LoanFormController controller;
+    ClientService clientService;
 
     @Autowired
     MockMvc mockMvc;
 
+    @InjectMocks
+    ClientFormController controller;
+
+    @Mock
+    ClientMapper clientMapper;
+
     @BeforeEach
-    void setUp() {
+    public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
         mockMvc = MockMvcBuilders
                 .standaloneSetup(controller)
@@ -41,21 +47,19 @@ class LoanFormControllerTest {
     }
 
     @Test
-    void displayLoanForm() throws Exception {
-        mockMvc.perform(get("/loan"))
+    void displayClientForm() throws Exception {
+        mockMvc.perform(get("/clientForm"))
                 .andExpect(status().isOk())
-                .andExpect(model().attributeExists("loanForm"))
-                .andExpect(view().name("loanForm"));
-
+                .andExpect(view().name("index"));
     }
 
     @Test
-    void addLoan() throws Exception {
-        mockMvc.perform(post("/loan")
-                .param("amount", String.valueOf(1234))
-                .param("dueDate", "2021-09-24")
-                .param("isLoanDelay", String.valueOf(false)))
-                .andExpect(status().isOk())
-                .andExpect(view().name("loanConfirmation"));
+    void saveClientData() throws Exception {
+
+        mockMvc.perform(post("/clientForm")
+                .param("firstName", "Jan")
+                .param("lastName", "Kowalski"))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(view().name("redirect:/loan"));
     }
 }

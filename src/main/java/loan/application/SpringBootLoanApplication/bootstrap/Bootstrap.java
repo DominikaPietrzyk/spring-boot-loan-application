@@ -43,7 +43,7 @@ public class Bootstrap implements CommandLineRunner {
         loan.setDueDate(new SimpleDateFormat("yyyy-MM-dd").parse("2021-09-24"));
         loan.setAmount(2343);
         loan.setClient(client);
-        loan.setLoanExtension(true);
+        loan.setLoanDelay(true);
 
         loanRepository.save(loan);
 
@@ -52,7 +52,7 @@ public class Bootstrap implements CommandLineRunner {
         loan2.setDueDate(new SimpleDateFormat("yyyy-MM-dd").parse("2022-08-24"));
         loan2.setAmount(9999);
         loan2.setClient(client2);
-        loan.setLoanExtension(false);
+        loan.setLoanDelay(false);
 
         loanRepository.save(loan2);
     }

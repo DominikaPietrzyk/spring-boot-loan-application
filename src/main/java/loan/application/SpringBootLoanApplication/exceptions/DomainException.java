@@ -1,6 +1,6 @@
 package loan.application.SpringBootLoanApplication.exceptions;
 
-public class DomainException extends Exception {
+public class DomainException extends RuntimeException {
     private String code;
 
     public String getCode() {

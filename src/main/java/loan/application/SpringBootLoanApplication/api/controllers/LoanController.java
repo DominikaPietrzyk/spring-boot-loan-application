@@ -21,31 +21,31 @@ public class LoanController {
 
     @GetMapping({"/{id}"})
     public ResponseEntity<LoanDTO> findLoanById(@PathVariable Long id) {
-        return new ResponseEntity<LoanDTO>
+        return new ResponseEntity<>
                 (loanService.findLoanDtoById(id), HttpStatus.OK);
     }
 
     @PostMapping
-    public ResponseEntity<LoanDTO> createNewLoan(@RequestBody LoanDTO loanDTO){
-        return new ResponseEntity<LoanDTO>
-                (loanService.createNewLoan(loanDTO),HttpStatus.CREATED);
+    public ResponseEntity<LoanDTO> createNewLoan(@RequestBody LoanDTO loanDTO) {
+        return new ResponseEntity<>
+                (loanService.createNewLoan(loanDTO), HttpStatus.CREATED);
     }
 
     @PutMapping({"/{id}"})
-    public ResponseEntity<LoanDTO> updateLoan(@PathVariable Long id, @RequestBody LoanDTO loanDTO){
-        return new ResponseEntity<LoanDTO>
-                (loanService.saveLoanByDTO(id,loanDTO), HttpStatus.OK);
+    public ResponseEntity<LoanDTO> updateLoan(@PathVariable Long id, @RequestBody LoanDTO loanDTO) {
+        return new ResponseEntity<>
+                (loanService.saveLoanByDTO(id, loanDTO), HttpStatus.OK);
     }
 
     @GetMapping
-    public ResponseEntity<LoanListDTO> getListOfLoans(){
-        return new ResponseEntity<LoanListDTO>
-                (new LoanListDTO(loanService.getAllLoans()),HttpStatus.OK);
+    public ResponseEntity<LoanListDTO> getListOfLoans() {
+        return new ResponseEntity<>
+                (new LoanListDTO(loanService.getAllLoans()), HttpStatus.OK);
     }
 
     @DeleteMapping({"/{id}"})
-    public ResponseEntity<Void> deleteLoan(@PathVariable Long id){
+    public ResponseEntity<Void> deleteLoan(@PathVariable Long id) {
         loanService.deleteLoanById(id);
-        return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

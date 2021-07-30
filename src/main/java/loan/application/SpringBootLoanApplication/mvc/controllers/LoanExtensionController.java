@@ -8,9 +8,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Calendar;
-import java.util.Date;
-
 @RequestMapping("/loanExtension")
 @Controller
 public class LoanExtensionController {
@@ -24,58 +21,45 @@ public class LoanExtensionController {
     @GetMapping("/Form")
     public String displayLoanExtensionForm(Model model) {
         model.addAttribute("clientLoanExtensionForm", new Loan());
-        return "loanExtensionForm" ;
+
+        return "loanExtensionForm";
     }
 
     @PostMapping("/Form")
-    public String getClientDataLoanExtensionForm(@ModelAttribute  Loan loan,Model model) {
+    public String getLoanIdForLoanExtensionForm(@ModelAttribute Loan loan,Model model) {
 
-        Long id = loan.getId();
-        loanService.findLoanDtoById(id);
+            Long id = loan.getId();
+            loanService.findLoanDtoById(id);
 
-        model.addAttribute("loanLoanExtensionForm", new Loan());
+            model.addAttribute("loanLoanExtensionForm", new Loan());
 
-        return "redirect:/loanExtension/" + loan.getId();
+            return "redirect:/loanExtension/" + loan.getId();
     }
 
-
     @GetMapping("/{id}")
-    public String displayLoanExtension(@PathVariable("id") Long id)  {
-        return "loanExtension" ;
+    public String displayLoanExtensionDialog(@PathVariable("id") Long id) {
+        return "loanExtensionDialog";
     }
 
     @PostMapping("/{id}")
-    public String updateLoanDate(@PathVariable("id") Long id,Model model) throws LoanNotFoundException, CannotCreateLoanException {
+    public String updateLoanDate(@PathVariable("id") Long id, Model model) throws LoanNotFoundException, CannotCreateLoanException {
 
-        Loan loan = null;
+        Loan loan;
         try {
             loan = loanService.getLoanById(id);
+
         } catch (LoanNotFoundException e) {
-            //TODO: error not found
+            System.out.println(e);
             return "errorPage";
         }
 
-        if (!loan.isLoanExtension()){
-
-            Calendar cal = Calendar.getInstance();
-            cal.setTime(loan.getDueDate());
-
-            cal.add(Calendar.DATE, 14);
-            Date modifiedDate = cal.getTime();
-
-            loan.setDueDate(modifiedDate);
-            loan.setLoanExtension(true);
-        }
-        else {
-            return "errorPage";
-        }
-        Loan updatedLoan= null;
+        Loan updatedLoan = null;
         try {
-            updatedLoan = loanService.saveLoan(loan);
+            updatedLoan = loanService.updateLoan(loan);
         } catch (CannotCreateLoanException e) {
             return "errorPage";
         }
-        model.addAttribute("updatedLoan",updatedLoan);
+        model.addAttribute("updatedLoan", updatedLoan);
 
         return "loanExtensionConfirmation";
     }

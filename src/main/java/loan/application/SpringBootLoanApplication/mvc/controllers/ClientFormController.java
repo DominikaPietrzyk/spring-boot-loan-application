@@ -9,28 +9,18 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-
 
 import javax.validation.Valid;
 
-@RequestMapping({"", "/", "/index"})
 @Controller
-public class IndexController{
+public class ClientFormController {
 
     private final ClientService clientService;
     private final ClientMapper clientMapper;
 
-    public IndexController(ClientService clientService, ClientMapper clientMapper) {
+    public ClientFormController(ClientService clientService, ClientMapper clientMapper) {
         this.clientService = clientService;
         this.clientMapper = clientMapper;
-    }
-
-    @GetMapping
-    public String displayStart(Model model)
-    {
-        model.addAttribute("client", new Client());
-        return "start";
     }
 
     @GetMapping("/clientForm")
@@ -46,8 +36,10 @@ public class IndexController{
 
         if (result.hasErrors()) {
             return "index";
+        } else {
+            model.addAttribute("loan", clientService.createNewClient(clientMapper.clientToClientDTO(client)));
+            return "redirect:/loan";
         }
-        model.addAttribute("loan", clientService.createNewClient(clientMapper.clientToClientDTO(client)));
-        return "redirect:/loanForm" ;
+
     }
 }

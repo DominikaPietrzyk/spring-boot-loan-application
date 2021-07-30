@@ -12,7 +12,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
-public class LoanServiceImpl implements LoanService{
+public class LoanServiceImpl implements LoanService {
 
     private final LoanRepository loanRepository;
     private final LoanMapper loanMapper;
@@ -26,7 +26,18 @@ public class LoanServiceImpl implements LoanService{
     public Loan saveLoan(Loan loan) throws CannotCreateLoanException {
         int hourOfGettingLoan = getCurrentHour();
 
-        if (canCreateLoan(hourOfGettingLoan)){
+        if (canCreateLoan(hourOfGettingLoan)) {
+            return this.loanRepository.save(loan);
+        } else {
+            throw new CannotCreateLoanException();
+        }
+    }
+
+    @Override
+    public Loan updateLoan(Loan loan) throws CannotCreateLoanException {
+
+        if (!loan.isLoanDelay()) {
+            delayPayDate(loan);
             return this.loanRepository.save(loan);
         } else {
             throw new CannotCreateLoanException();
@@ -96,5 +107,16 @@ public class LoanServiceImpl implements LoanService{
         Calendar calendar = GregorianCalendar.getInstance();
         calendar.setTime(new Date());
         return calendar.get(Calendar.HOUR_OF_DAY);
+    }
+
+    private void delayPayDate(Loan loan) {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(loan.getDueDate());
+
+        cal.add(Calendar.DATE, 14);
+        Date modifiedDate = cal.getTime();
+
+        loan.setDueDate(modifiedDate);
+        loan.setLoanDelay(true);
     }
 }

@@ -54,13 +54,13 @@ class LoanControllerTest extends AbstractRestControllerTest{
         loan1.setId(1L);
         loan1.setAmount(2341);
         loan1.setDueDate(new SimpleDateFormat("yyyy/MM/dd").parse("2021/10/24"));
-        loan1.setLoanExtension(true);
+        loan1.setLoanDelay(true);
 
         LoanDTO loan2 = new LoanDTO();
         loan2.setId(2L);
         loan2.setAmount(4350);
         loan2.setDueDate(new SimpleDateFormat("yyyy/MM/dd").parse("2021/09/24"));
-        loan2.setLoanExtension(false);
+        loan2.setLoanDelay(false);
 
         List<LoanDTO> loanDTOList = Arrays.asList(loan1, loan2);
 
@@ -78,7 +78,7 @@ class LoanControllerTest extends AbstractRestControllerTest{
         loan1.setId(1L);
         loan1.setAmount(4350);
         loan1.setDueDate(new SimpleDateFormat("yyyy/MM/dd").parse("2021/09/24"));
-        loan1.setLoanExtension(false);
+        loan1.setLoanDelay(false);
 
         when(loanService.findLoanDtoById(anyLong())).thenReturn(loan1);
 
@@ -104,15 +104,9 @@ class LoanControllerTest extends AbstractRestControllerTest{
         loan1.setId(1L);
         loan1.setAmount(4350);
         loan1.setDueDate(new SimpleDateFormat("yyyy-MM-dd").parse("2021-09-24"));
-        loan1.setLoanExtension(true);
+        loan1.setLoanDelay(true);
 
-        LoanDTO  returnDTO = new LoanDTO();
-        returnDTO.setId(loan1.getId());
-        returnDTO.setAmount(loan1.getAmount());
-        returnDTO.setDueDate(loan1.getDueDate());
-        returnDTO.setLoanExtension(loan1.isLoanExtension());
-
-        when(loanService.saveLoanByDTO(anyLong(), any(LoanDTO.class))).thenReturn(returnDTO);
+        when(loanService.saveLoanByDTO(anyLong(), any(LoanDTO.class))).thenReturn(loan1);
 
         mockMvc.perform(put(LoanController.BASE_URL + "/1")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -120,7 +114,7 @@ class LoanControllerTest extends AbstractRestControllerTest{
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id", equalTo(1)))
                 .andExpect(jsonPath("$.amount", equalTo(4350)))
-                .andExpect(jsonPath("$.loanExtension",equalTo(true)));
+                .andExpect(jsonPath("$.loanDelay",equalTo(true)));
     }
 
     @Test
@@ -129,15 +123,9 @@ class LoanControllerTest extends AbstractRestControllerTest{
         loan1.setId(1L);
         loan1.setAmount(4350);
         loan1.setDueDate(new SimpleDateFormat("yyyy-MM-dd").parse("2021-09-24"));
-        loan1.setLoanExtension(true);
+        loan1.setLoanDelay(true);
 
-        LoanDTO returnDTO = new LoanDTO();
-        returnDTO.setId(loan1.getId());
-        returnDTO.setAmount(loan1.getAmount());
-        returnDTO.setDueDate(loan1.getDueDate());
-        returnDTO.setLoanExtension(loan1.isLoanExtension());
-
-        when(loanService.createNewLoan(any(LoanDTO.class))).thenReturn(returnDTO);
+        when(loanService.createNewLoan(any(LoanDTO.class))).thenReturn(loan1);
 
         mockMvc.perform(post(LoanController.BASE_URL)
                 .accept(MediaType.APPLICATION_JSON)
@@ -146,6 +134,6 @@ class LoanControllerTest extends AbstractRestControllerTest{
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.id", equalTo(1)))
                 .andExpect(jsonPath("$.amount", equalTo(4350)))
-                .andExpect(jsonPath("$.loanExtension",equalTo(true)));
+                .andExpect(jsonPath("$.loanDelay",equalTo(true)));
     }
 }

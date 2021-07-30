@@ -1,7 +1,6 @@
 package loan.application.SpringBootLoanApplication.domain;
 
 import com.sun.istack.NotNull;
-import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
@@ -9,14 +8,13 @@ import javax.validation.constraints.Size;
 import java.util.HashSet;
 import java.util.Set;
 
-@ToString
-@EqualsAndHashCode
 @Entity
 @Table(name = "clients")
 public class Client {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @NotNull
     @Column(name = "client_id")
     private Long id;
 
@@ -25,13 +23,13 @@ public class Client {
 
     @NotNull
     @NotEmpty
-    @Size(min=2, max=30)
+    @Size(min = 2, max = 100)
     @Column(name = "first_name")
     private String firstName;
 
     @NotNull
     @NotEmpty
-    @Size(min=2, max=30)
+    @Size(min = 2, max = 100)
     @Column(name = "last_name")
     private String lastName;
 

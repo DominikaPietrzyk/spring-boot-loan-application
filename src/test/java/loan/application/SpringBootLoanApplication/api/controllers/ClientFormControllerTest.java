@@ -26,7 +26,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-class ClientControllerTest extends AbstractRestControllerTest {
+class ClientFormControllerTest extends AbstractRestControllerTest {
 
     @Mock
     ClientService clientService;
@@ -38,7 +38,7 @@ class ClientControllerTest extends AbstractRestControllerTest {
 
     @BeforeEach
     public void setUp() throws Exception {
-         MockitoAnnotations.initMocks(this);
+        MockitoAnnotations.initMocks(this);
 
         mockMvc = MockMvcBuilders.standaloneSetup(clientController)
                 .setControllerAdvice(new RestResponseEntityExceptionHandler())
@@ -48,7 +48,6 @@ class ClientControllerTest extends AbstractRestControllerTest {
     @Test
     public void testListClients() throws Exception {
 
-        //given
         ClientDTO client1 = new ClientDTO();
         client1.setId(1L);
         client1.setFirstName("Jan");
@@ -118,26 +117,21 @@ class ClientControllerTest extends AbstractRestControllerTest {
 
     @Test
     public void testCreteClient() throws Exception {
-        ClientDTO client1 = new ClientDTO();
-        client1.setId(1L);
-        client1.setFirstName("Jan");
-        client1.setLastName("Kowalski");
 
-        ClientDTO returnDTO = new ClientDTO();
-        returnDTO.setId(client1.getId());
-        returnDTO.setFirstName(client1.getFirstName());
-        returnDTO.setLastName(client1.getLastName());
+        ClientDTO client = new ClientDTO();
+        client.setId(1L);
+        client.setFirstName("Jan");
+        client.setLastName("Kowalski");
 
-        when(clientService.createNewClient(any(ClientDTO.class))).thenReturn(returnDTO);
+        when(clientService.createNewClient(any(ClientDTO.class))).thenReturn(client);
 
         mockMvc.perform(post(ClientController.BASE_URL)
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(asJsonString(client1)))
+                .content(asJsonString(client)))
                 .andExpect(status().isCreated())
                 .andDo(print())
                 .andExpect(jsonPath("$.firstName", equalTo("Jan")))
                 .andExpect(jsonPath("$.lastName", equalTo("Kowalski")));
     }
-
 }

@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 public class ClientController {
 
-     public static final String BASE_URL = "/api/v1/clients";
+    public static final String BASE_URL = "/api/v1/clients";
 
     private final ClientService clientService;
 
@@ -21,31 +21,31 @@ public class ClientController {
 
     @GetMapping({"/{id}"})
     public ResponseEntity<ClientDTO> findClientById(@PathVariable Long id) {
-        return new ResponseEntity<ClientDTO>
+        return new ResponseEntity<>
                 (clientService.findClientById(id), HttpStatus.OK);
     }
 
     @PostMapping
-    public ResponseEntity<ClientDTO> createNewClient(@RequestBody ClientDTO clientDTO){
-        return new ResponseEntity<ClientDTO>
-                (clientService.createNewClient(clientDTO),HttpStatus.CREATED);
+    public ResponseEntity<ClientDTO> createNewClient(@RequestBody ClientDTO clientDTO) {
+        return new ResponseEntity<>
+                (clientService.createNewClient(clientDTO), HttpStatus.CREATED);
     }
 
     @PutMapping({"/{id}"})
-    public ResponseEntity<ClientDTO> update(@PathVariable Long id, @RequestBody ClientDTO clientDTO){
-        return new ResponseEntity<ClientDTO>
-                (clientService.updateClientByDTO(id,clientDTO), HttpStatus.OK);
+    public ResponseEntity<ClientDTO> update(@PathVariable Long id, @RequestBody ClientDTO clientDTO) {
+        return new ResponseEntity<>
+                (clientService.updateClientByDTO(id, clientDTO), HttpStatus.OK);
     }
 
     @GetMapping
-    public ResponseEntity<ClientListDTO> getListOfClient(){
-        return new ResponseEntity<ClientListDTO>
-                (new ClientListDTO(clientService.getAllClient()),HttpStatus.OK);
+    public ResponseEntity<ClientListDTO> getListOfClient() {
+        return new ResponseEntity<>
+                (new ClientListDTO(clientService.getAllClient()), HttpStatus.OK);
     }
 
     @DeleteMapping({"/{id}"})
-    public ResponseEntity<Void> deleteClient(@PathVariable Long id){
+    public ResponseEntity<Void> deleteClient(@PathVariable Long id) {
         clientService.deleteClientById(id);
-        return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

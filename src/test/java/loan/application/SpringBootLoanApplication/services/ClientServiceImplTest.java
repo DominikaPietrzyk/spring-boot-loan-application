@@ -11,6 +11,7 @@ import org.mockito.MockitoAnnotations;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.anyLong;
@@ -35,12 +36,12 @@ class ClientServiceImplTest {
     public void getAllClients() throws Exception {
 
         Client client1 = new Client();
-        client1.setId(1l);
+        client1.setId(1L);
         client1.setFirstName("Maria");
         client1.setLastName("Nowak");
 
         Client client2 = new Client();
-        client2.setId(2l);
+        client2.setId(2L);
         client2.setFirstName("Jan");
         client2.setLastName("Kowalski");
 
@@ -55,15 +56,15 @@ class ClientServiceImplTest {
     public void getClientById() throws Exception {
 
         Client client1 = new Client();
-        client1.setId(1l);
+        client1.setId(1L);
         client1.setFirstName("Maria");
         client1.setLastName("Nowak");
 
-        when(clientRepository.findById(anyLong())).thenReturn(java.util.Optional.ofNullable(client1));
+        when(clientRepository.findById(anyLong())).thenReturn(Optional.of(client1));
 
-        ClientDTO customerDTO = clientService.findClientById(1L);
+         clientService.findClientById(1L);
 
-        assertEquals(1L,client1.getId());
+        assertEquals(1L, client1.getId());
         assertEquals("Maria", client1.getFirstName());
         assertEquals("Nowak", client1.getLastName());
     }
@@ -85,7 +86,7 @@ class ClientServiceImplTest {
         Client savedClient = new Client();
         savedClient.setFirstName(clientDTO.getFirstName());
         savedClient.setLastName(clientDTO.getLastName());
-        savedClient.setId(1l);
+        savedClient.setId(1L);
 
         when(clientRepository.save(any(Client.class))).thenReturn(savedClient);
 
@@ -105,7 +106,7 @@ class ClientServiceImplTest {
         Client savedClient = new Client();
         savedClient.setFirstName(clientDTO.getFirstName());
         savedClient.setLastName(clientDTO.getLastName());
-        savedClient.setId(1l);
+        savedClient.setId(1L);
 
         when(clientRepository.save(any(Client.class))).thenReturn(savedClient);
 
@@ -114,8 +115,6 @@ class ClientServiceImplTest {
         assertEquals(clientDTO.getFirstName(), savedDTO.getFirstName());
         assertEquals(clientDTO.getLastName(), savedDTO.getLastName());
     }
-
-
 
 
 }

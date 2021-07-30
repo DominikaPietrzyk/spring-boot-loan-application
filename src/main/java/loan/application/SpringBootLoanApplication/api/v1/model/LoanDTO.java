@@ -7,7 +7,7 @@ public class LoanDTO {
     private Long id;
     private int Amount;
     private Date dueDate;
-    private boolean loanExtension;
+    private boolean isLoanDelay;
 
     public Long getId() {
         return id;
@@ -33,11 +33,11 @@ public class LoanDTO {
         this.dueDate = dueDate;
     }
 
-    public boolean isLoanExtension() {
-        return loanExtension;
+    public boolean isLoanDelay() {
+        return isLoanDelay;
     }
 
-    public void setLoanExtension(boolean loanExtension) {
-        this.loanExtension = loanExtension;
+    public void setLoanDelay(boolean loanDelay) {
+        isLoanDelay = loanDelay;
     }
 }

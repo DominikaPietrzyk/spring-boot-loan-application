@@ -10,28 +10,29 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
             integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
             crossorigin="anonymous" th:src="@{/webjars/bootstrap/3.3.7-1/js/bootstrap.min.js}"></script>
-</head></head>
+</head>
+</head>
 <body>
 <nav class="navbar sticky-top navbar-dark bg-dark pb-3">
     <a class="navbar-brand" th:href="@{/}">Loan App</a>
 </nav>
-<!--/*@thymesVar id="Loan" type="application.SpringBootLoanApplication.domain.Loan"*/-->
-<form th:object="${loanForm}" method="post">
+<form th:action="@{/loan}" th:object="${loanForm}" method="post">
     <div th:if="${#fields.hasErrors('*')}" class="alert alert-danger">
         <p>Please Correct Errors Below</p>
     </div>
 
-        <div class="form-group pl-3 pt-4">
-            <label for="InputAmount" >Amount</label>
-            <input th:field="*{amount}"  type="number" class="form-control col-3" id="InputAmount" placeholder="Enter amount">
-            <span class="help-block" th:if="${#fields.hasErrors('amount')}">
+    <div class="form-group pl-3 pt-4">
+        <label for="InputAmount">Amount</label>
+        <input th:field="*{amount}" type="number" class="form-control col-3" id="InputAmount"
+               placeholder="Enter amount">
+        <span class="help-block" th:if="${#fields.hasErrors('amount')}">
                        <p th:errors="*{amount}" class="text-danger">Last amount error</p>
                    </span>
-        </div>
+    </div>
 
     <div class="form-group pl-3">
-        <label for="InputDate">Date</label>
-        <input th:field="*{dueDate}"   type="date" class="form-control col-3" id="InputDate" placeholder="Date">
+        <label >Date</label>
+        <input th:field="*{dueDate}" id="datepicker" type="date" th:value="2021-07-31" class="form-control col-3"  placeholder="Date">
         <span class="help-block" th:if="${#fields.hasErrors('dueDate')}">
                        <p th:errors="*{dueDate}" class="text-danger">Last dueDate error</p>
                    </span>

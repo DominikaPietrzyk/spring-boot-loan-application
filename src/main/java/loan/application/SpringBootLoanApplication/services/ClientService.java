@@ -1,7 +1,6 @@
 package loan.application.SpringBootLoanApplication.services;
 
 import loan.application.SpringBootLoanApplication.api.v1.model.ClientDTO;
-import loan.application.SpringBootLoanApplication.domain.Client;
 
 import java.util.List;
 

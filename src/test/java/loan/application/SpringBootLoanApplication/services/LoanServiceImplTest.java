@@ -40,19 +40,19 @@ class LoanServiceImplTest {
         loan1.setId(1L);
         loan1.setAmount(2341);
         loan1.setDueDate(new SimpleDateFormat("yyyy-MM-dd").parse("2021-10-24"));
-        loan1.setLoanExtension(true);
+        loan1.setLoanDelay(true);
 
         Loan loan2 = new Loan();
         loan2.setId(2L);
         loan2.setAmount(4350);
         loan2.setDueDate(new SimpleDateFormat("yyyy-MM-dd").parse("2021-09-2 4"));
-        loan2.setLoanExtension(false);
+        loan2.setLoanDelay(false);
 
         Loan loan3 = new Loan();
         loan3.setId(3L);
         loan3.setAmount(3500);
         loan3.setDueDate(new SimpleDateFormat("yyyy-MM-dd").parse("2024-01-12"));
-        loan3.setLoanExtension(true);
+        loan3.setLoanDelay(true);
 
         when(loanRepository.findAll()).thenReturn(Arrays.asList(loan1, loan2, loan3));
 
@@ -68,13 +68,13 @@ class LoanServiceImplTest {
         loan1.setId(1L);
         loan1.setAmount(2341);
         loan1.setDueDate(new SimpleDateFormat("yyyy-MM-dd").parse("2021-10-24"));
-        loan1.setLoanExtension(true);
+        loan1.setLoanDelay(true);
 
-        when(loanRepository.findById(anyLong())).thenReturn(Optional.ofNullable(loan1));
+        when(loanRepository.findById(anyLong())).thenReturn(Optional.of(loan1));
 
         LoanDTO loanDTO = loanService.findLoanDtoById(1L);
 
-        assertEquals(1L,loan1.getId());
+        assertEquals(1L, loan1.getId());
         assertEquals(2341, loan1.getAmount());
     }
 
@@ -89,24 +89,23 @@ class LoanServiceImplTest {
     public void createNewLoanDTO() throws Exception {
 
         LoanDTO loanDTO = new LoanDTO();
-        loanDTO.setId(1L);
         loanDTO.setAmount(6789);
         loanDTO.setDueDate(new SimpleDateFormat("yyyy-MM-dd").parse("2022-05-14"));
-        loanDTO.setLoanExtension(false);
+        loanDTO.setLoanDelay(false);
 
         Loan savedLoan = new Loan();
         savedLoan.setAmount(loanDTO.getAmount());
         savedLoan.setDueDate(loanDTO.getDueDate());
-        savedLoan.setLoanExtension(loanDTO.isLoanExtension());
+        savedLoan.setLoanDelay(loanDTO.isLoanDelay());
         savedLoan.setId(loanDTO.getId());
 
         when(loanRepository.save(any(Loan.class))).thenReturn(savedLoan);
 
         LoanDTO savedDTO = loanService.createNewLoan(loanDTO);
 
-        assertEquals(1L,savedDTO.getId());
         assertEquals(6789, savedDTO.getAmount());
-        assertEquals(false,savedDTO.isLoanExtension());
+        assertEquals(new SimpleDateFormat("yyyy-MM-dd").parse("2022-05-14"), savedDTO.getDueDate());
+        assertFalse(savedDTO.isLoanDelay());
     }
 
     @Test
@@ -116,22 +115,51 @@ class LoanServiceImplTest {
         loanDTO.setId(1L);
         loanDTO.setAmount(6789);
         loanDTO.setDueDate(new SimpleDateFormat("yyyy-MM-dd").parse("2022-05-14"));
-        loanDTO.setLoanExtension(false);
+        loanDTO.setLoanDelay(false);
 
         Loan savedLoan = new Loan();
         savedLoan.setAmount(loanDTO.getAmount());
         savedLoan.setDueDate(loanDTO.getDueDate());
-        savedLoan.setLoanExtension(loanDTO.isLoanExtension());
-        savedLoan.setId(loanDTO.getId());;
+        savedLoan.setLoanDelay(loanDTO.isLoanDelay());
+        savedLoan.setId(loanDTO.getId());
+        ;
 
         when(loanRepository.save(any(Loan.class))).thenReturn(savedLoan);
 
         LoanDTO savedDTO = loanService.saveLoanByDTO(1L, loanDTO);
 
-        assertEquals(1L,savedDTO.getId());
+        assertEquals(1L, savedDTO.getId());
         assertEquals(6789, savedDTO.getAmount());
-        assertEquals(false,savedDTO.isLoanExtension());
+        assertEquals(false, savedDTO.isLoanDelay());
     }
 
+    @Test
+    public void updateLoan() throws Exception {
+        Loan loan1 = new Loan();
+        loan1.setAmount(2341);
+        loan1.setDueDate(new SimpleDateFormat("yyyy-MM-dd").parse("2021-07-29"));
+        loan1.setLoanDelay(false);
 
+        when(loanRepository.save(loan1)).thenReturn(loan1);
+
+        Loan loan = loanService.updateLoan(loan1);
+
+        assertEquals(new SimpleDateFormat("yyyy-MM-dd").parse("2021-08-12"), loan.getDueDate());
+        assertEquals(2341, loan.getAmount());
+    }
+
+    @Test
+    public void saveLoan() throws Exception {
+        Loan loan1 = new Loan();
+        loan1.setAmount(2341);
+        loan1.setDueDate(new SimpleDateFormat("yyyy-MM-dd").parse("2021-07-29"));
+        loan1.setLoanDelay(true);
+
+        when(loanRepository.save(loan1)).thenReturn(loan1);
+
+        Loan loan = loanService.saveLoan(loan1);
+
+        assertEquals(new SimpleDateFormat("yyyy-MM-dd").parse("2021-07-29"), loan.getDueDate());
+        assertEquals(2341, loan.getAmount());
+    }
 }
