@@ -6,7 +6,10 @@ import loan.application.SpringBootLoanApplication.exceptions.LoanNotFoundExcepti
 import loan.application.SpringBootLoanApplication.services.LoanService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 @RequestMapping("/loanExtension")
 @Controller
@@ -26,9 +29,14 @@ public class LoanExtensionController {
     }
 
     @PostMapping("/Form")
-    public String getLoanIdForLoanExtensionForm(@ModelAttribute Loan loan,Model model) {
+    public String getLoanIdForLoanExtensionForm(@ModelAttribute @Valid Loan loan, Model model, BindingResult result) {
 
             Long id = loan.getId();
+
+            if(result.hasErrors() || id==null){
+                return "loanExtensionForm";
+            }
+
             loanService.findLoanDtoById(id);
 
             model.addAttribute("loanLoanExtensionForm", new Loan());

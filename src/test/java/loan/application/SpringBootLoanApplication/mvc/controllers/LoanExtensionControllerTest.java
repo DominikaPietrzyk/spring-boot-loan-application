@@ -60,7 +60,7 @@ class LoanExtensionControllerTest {
     void displayLoanExtension() throws Exception {
         mockMvc.perform(get("/loanExtension/1"))
                 .andExpect(status().isOk())
-                .andExpect(view().name("loanExtension"));
+                .andExpect(view().name("loanExtensionDialog"));
     }
 
     @Test

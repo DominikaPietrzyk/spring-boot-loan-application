@@ -45,13 +45,13 @@ class AcceptanceTest {
     public void should_save_loan_data_and_should_allow_you_to_take_loans_between_6_and_24() throws ParseException {
         Loan loan = new Loan();
         loan.setAmount(25000);
-        loan.setDueDate(new SimpleDateFormat("yyyy-MM-dd").parse("2021-07-31"));
+        loan.setDueDate(new SimpleDateFormat("yyyy-MM-dd").parse("2021-08-20"));
 
         Loan savedLoan = loanService.saveLoan(loan);
 
         assertThat(savedLoan)
                 .returns(25000, Loan::getAmount)
-                .returns(new SimpleDateFormat("yyyy-MM-dd").parse("2021-07-31"), Loan::getDueDate);
+                .returns(new SimpleDateFormat("yyyy-MM-dd").parse("2021-08-20"), Loan::getDueDate);
     }
 
     @Test
@@ -59,7 +59,7 @@ class AcceptanceTest {
 
         Loan loan = new Loan();
         loan.setAmount(25000);
-        loan.setDueDate(new SimpleDateFormat("yyyy-MM-dd").parse("2021-07-31"));
+        loan.setDueDate(new SimpleDateFormat("yyyy-MM-dd").parse("2021-08-20"));
         loan.setLoanDelay(false);
 
         Loan savedLoan = loanService.saveLoan(loan);
@@ -71,7 +71,7 @@ class AcceptanceTest {
         assertThat(updatedLoan)
                 .returns(3L, Loan::getId)
                 .returns(25000, Loan::getAmount)
-                .returns(new SimpleDateFormat("yyyy-MM-dd").parse("2021-08-14"), Loan::getDueDate)
+                .returns(new SimpleDateFormat("yyyy-MM-dd").parse("2021-09-03"), Loan::getDueDate)
                 .returns(true, Loan::isLoanDelay);
     }
 }
